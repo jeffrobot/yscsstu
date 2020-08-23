@@ -92,9 +92,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'yssite',
         'USER': 'yscs_manager',
-        'PASSWORD': 'p@s$word!',
-        'HOST': 'localhost',
-        'PORT': '',
+        'PASSWORD': 'asdf1234',
+        'HOST': 'yscs-db.cqt47mfmfgj6.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 """
