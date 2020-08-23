@@ -18,7 +18,6 @@ RUN set -ex \
     && pip install -r requirements.txt'
 
 COPY . ./
-RUN rm id_rsa
 
 FROM python:3.7-slim
 WORKDIR /code
