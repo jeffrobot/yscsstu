@@ -1,0 +1,104 @@
+{% extends 'yblog/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+     .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      width: 60%;
+    }
+
+    .swiper-slide:nth-child(2n) {
+      width: 40%;
+    }
+
+    .swiper-slide:nth-child(3n) {
+      width: 20%;
+    }
+  </style>
+
+    <div style="width: 100%;height:70px;"></div>
+    <div id="postdetail" class="container">
+        <div class="parts">
+            <h4>{{post.title}}</h4>
+            <hr>
+        </div>
+        <div class="details">
+            <p style="font-weight:bold; font-size: small; color:#636e72">카테고리:  {{post.category}}<br>작성자:  {{post.author}}<br>작성 날짜:  {{post.created_date}}</p>
+            {% if post.author.id == user.id %}
+            <span><a href="{% url 'post_edit' pk=post.pk %}" >edit</a></span>
+            <span><a href="{% url 'post_delete' pk=post.pk %}" >delete</a></span>
+            {% endif %}
+            <a href="#" onClick="document.getElementById('likebutton').submit()"><i class="far fa-star"></i></a> {{post.likes}}
+
+            <form id="likebutton" method="POST" action="/yblog/{{post.pk}}/preference/1/">
+            {% csrf_token %}
+            <input type="hidden">
+            </form>
+        </div>
+        <div class="contents">
+            <!--<div style="width: 400px; height: 300px;">
+                <img src="{{ post.image.url }}" class="img-responsive" style="width: 100%; height: 100%;" ></img>
+            </div>-->
+            {% if post.image_set.all %}
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {% for photo in post.image_set.all %}
+                    <div id="car" class="swiper-slide">
+                        <img id="pho" src="{{ photo.image.url }}" class="card-img-top" style="max-width: 100%; max-height: 100%;">
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Add Pagination -->
+            </div>
+            {% endif %}
+            <p>{{post.text}}</p>
+
+        </div>
+        <hr style="width: 80%;">
+
+    <a class="btn btn-default" href="{% url 'add_comment' pk=post.pk %}">댓글 추가</a>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><i class="material-icons">create</i></a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><i class="material-icons">clear</i></a>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>댓글이 없습니다</p>
+    {% endfor %}
+    </div>
+    <script>
+     var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+      </script>
+{% endblock %}

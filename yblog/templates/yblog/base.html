@@ -1,0 +1,89 @@
+{% load static %}
+<html lang="ko">
+<head>
+    <title>Yonsei CS Cafe</title>
+     <!-- Compiled and minified CSS -->
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--bootstrap-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script type="text/javaScript" src="{% static 'yblog/add.js' %}"></script>
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <script type = "text/javascript" src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <!--swiper-->
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+        <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        
+        
+</head>
+    <body>
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand">
+            <!-- Navbar content -->
+        <a href="/" class="navbar-brand"><img style="width: 65px; height: 65px;" src="{% static 'yblog/cslogo.png' %}"/></a>
+        <ul class="navbar-nav ml-auto">
+          
+          <li class="nav-item"><span style="color:white; font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span></li>
+        </ul>
+        <!--
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'post_search' %}" method="get">{% csrf_token %}
+                    <input id="search" name='q' class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/">홈</a></li>
+              <li class="nav-item"><a class="nav-link" href="/yblog/new">업로드</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">{{user.username}}</a></li>
+              <li class="nav-item"><a class="nav-link" href="/yblog/logout">로그아웃</a></li>
+              <li><span style="color:white; font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span></li>
+            </ul>
+            </div>-->
+    </nav>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a>
+        <form class="form-inline my-2 my-lg-0" action="{% url 'post_search' %}" method="get">{% csrf_token %}
+            <input id="search" name='q' class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </a>
+      <a class="nav-link" href="{% url 'post_new' %}">업로드</a>
+      <a class="nav-link" href="{% url 'my_page' %}">{{user.username}}</a>
+      <a class="nav-link" href="{% url 'logout' %}">로그아웃</a>
+      <hr>
+      <a class="nav-link" href="{% url 'post_all' %}">모든 게시글</a>
+      <a class="nav-link" href="{% url 'study_post' %}">STUDY</a>
+      <a class="nav-link" href="{% url 'clubs_post' %}">CLUBS</a>
+      <a class="nav-link" href="{% url 'notice_post' %}">NOTICE</a>
+      <a class="nav-link" href="{% url 'social_post' %}">SOCIAL</a>
+
+    </div>
+    {% endif %}
+    
+    {% block content %}
+    {% endblock %}
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "40vw";
+      }
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+    </script>
+
+    </body>
+
+</html>

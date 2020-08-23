@@ -1,0 +1,21 @@
+{% extends 'yblog/base.html' %}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div style="width: 100%;height:70px;"></div>
+    <div class="parts">
+        <h4>New Post</h4>
+        <hr>
+    </div>
+    <div class="container" style="justify-content: center;">
+        <form method="POST" class="post-form" action='.' enctype='multipart/form-data'>{% csrf_token %}
+            <table>
+                {{post_form|bootstrap}}
+                <br>
+                {{image_formset}}
+                <br>
+            </table>
+            <button style="margin: auto; border:1px solid black; border-radius:30px;"class='btn' type='submit'>게시</button>
+        </form>
+    </div>
+{% endblock %}

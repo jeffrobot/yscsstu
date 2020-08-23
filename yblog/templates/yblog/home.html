@@ -1,0 +1,227 @@
+{% extends 'yblog/base.html' %}
+{% load static %}
+{% block content %}
+    {% if user.is_authenticated %}
+    
+    <div style="background: rgba(0, 0, 0, 0.952);width:100%;height:400px;">
+    <div class="head">
+      <div class="quote">
+        <i>"The more you know,<br>the more you realize you know nothing."<br>-Socrates-</i>
+      </div>
+    </div>
+    </div>
+    <div class="container">
+    <div class="parts">
+      <h4>카테고리</h4>
+      <hr>
+    </div>
+      <div class="row row-cols-1 row-cols-md-2" id="categories">
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{% static 'yblog/study.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Study</h5>
+              <p class="card-text">다양하고 유익한 공부자료들을 공유하고 얻어가는 자료실</p>
+              <a href="{% url 'study_post' %}" class="stretched-link"><span>&#10140;</span>
+
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{% static 'yblog/clubs.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Clubs</h5>
+              <p class="card-text">컴과동아리 홍보 및 안내사항</p>
+              <a href="{% url 'clubs_post' %}" class="stretched-link"><span>&#10140;</span>
+
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{% static 'yblog/notice.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Notice</h5>
+              <p class="card-text">채용공고, 프로젝트 등</p>
+              <a href="{% url 'notice_post' %}" class="stretched-link"><span>&#10140;</span>
+
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col mb-4">
+          <div class="card">
+            <img src="{% static 'yblog/social.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Social</h5>
+              <p class="card-text">잡담, 건의 등</p>
+              <a href="{% url 'social_post' %}" class="stretched-link"><span>&#10140;</span>
+
+              </a>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  
+    <div class="allposts" style="font-weight: bold; width:100%">
+      <a style="color:grey;" href="{% url 'post_all' %}"><p><i>모든 게시물 보기<span>&#10230;</span></i></p></a>
+    </div>
+
+    <div class="parts">
+      <h4>인기 게시물</h4>
+      <hr>
+    </div>
+    <div id="prefposts" class="container">
+      <div class="row">
+        {% for pref_post in pref_posts|slice:'9' %}
+        <div class="col-sm-4" style="padding-bottom: 30px;">
+          <div class="card bg-light text-black">
+
+            <img class="card-img" src="{% static 'yblog/postpic1.jpg' %}" alt="Card image">
+            
+            <div id="postcards" class="card-img-overlay">
+              <a class="stretched-link" href="{% url 'post_detail' pk=pref_post.pk %}"><h5 class="card-title">{{pref_post.title}}</h5></a>
+              <p class="card-text"><small class="text-muted">{{pref_post.category}}</small></p>
+              <p class="card-text">
+                {{pref_post.text|slice:"80"}}...
+              </p>
+              <p class="card-text"><small class="text-muted">추천 수: {{pref_post.likes}}</small> | <small class="text-muted">댓글 수: {{pref_post.comments.count}}</small></p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="parts">
+      <h4>New Posts</h4>
+      <hr>
+    </div>
+    <div id="newposts" class="container">
+      <div class="row">
+      {% for post in posts|slice:'9' %}
+        <div class="col-sm-4" style="padding-bottom: 30px;">
+          <div class="card bg-light text-black">
+            <img class="card-img" src="{% static 'yblog/postpic1.jpg' %}" alt="Card image">
+            
+            <div id="postcards" class="card-img-overlay">
+              <a class="stretched-link" href="{% url 'post_detail' pk=post.pk %}"><h5 class="card-title">{{post.title}}</h5></a>
+              <p class="card-text"><small class="text-muted">{{post.category}}</small></p>
+              <p class="card-text">
+                {{post.text|slice:"80"}}...
+              </p>
+              <p class="card-text"><small class="text-muted">추천 수: {{post.likes}}</small> | <small class="text-muted">댓글 수: {{post.comments.count}}</small> {% if post.image_set.all %} | <small class="text-muted"> <i class="far fa-file-image"></i> </small>
+                 {%endif%}</p>
+            </div>
+          </div>
+        </div>
+      <!--
+        <div class="card mb-3">
+          <img class="card-img-top" src="{% static 'yblog/postpic.jpg' %}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{post}}</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+
+
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="{% static 'yblog/yscslogo1.png' %}" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <a href="{% url 'post_detail' pk=post.pk %}"><h5 class="card-title">{{post.title}}</h5></a>
+              <p class="card-text"><small class="text-muted">{{post.category}}</small></p>
+              <p class="card-text">
+                {{post.text|slice:"100"}}...
+              </p>
+              <p class="card-text"><small class="text-muted">댓글 수: {{post.comments.count}}</small></p>
+              {% if post.author.id == user.id %}
+              <span><a href="{% url 'post_edit' pk=post.pk %}" ><i class="material-icons">create</i></a></span>
+              <span><a href="{% url 'post_delete' pk=post.pk %}" ><i class="material-icons">clear</i></a></span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>-->
+      
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+
+    {% else %}
+    <style>
+      body{
+        background-color: black;
+      }
+    </style>
+      <!-- Swiper -->
+      <div class="container">
+          <div class="swiper-container">
+              <div class="swiper-wrapper">
+                  <div class="swiper-slide" id="first">
+
+                      <div class="container">
+                          <div class="row">
+                              <div class="col-sm-4" style="text-align: center;">
+                                  <a href="/" class="navbar-brand">
+                                      <img style="border-right: 1px solid white;width: 200px; height: 200px;" src="{% static 'yblog/cslogo.png' %}"/>
+                                  </a>
+                              </div>
+                              <div class="col-sm-8" id="title-box">
+                                  <h3 style="color: white;">Yonsei CS Cafe</h3>
+                                  <p>컴퓨터과학과 학생들의 원활한 교류를 위한 컴과 게시판입니다.</p>
+                                  <div>
+                                  <a href="/yblog/register">
+                                      <button type="button" class="btn btn-outline-light" href="/yblog/register">회원가입</button>
+                                  </a>
+                                  <a href="/yblog/login">
+                                  <button type="button" class="btn btn-outline-light" href="/yblog/login">로그인</button>
+                                  </a>
+                                  </div>
+                              </div>
+                          </div> 
+                      </div>
+                      
+
+                  </div>
+
+                  <div class="swiper-slide" id="second">
+                    
+                  </div>
+              </div>
+              <!-- Add Pagination -->
+              <div class="swiper-pagination"></div>
+          </div>
+      </div>
+      
+      <!-- Swiper JS -->
+      <script src="../package/swiper-bundle.min.js"></script>
+  
+      <!-- Initialize Swiper -->
+      <script>
+          var swiper = new Swiper('.swiper-container', {
+              direction: 'vertical',
+              slidesPerView: 1,
+              spaceBetween: 30,
+              mousewheel: true,
+              pagination: {
+                  el: '.swiper-pagination',
+                  clickable: true,
+              },
+          });
+      </script>   
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'yblog/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <!--my account detail-->
+    <div class="my_acc">
+        {{user.id}}
+        {{user.username}}
+        {{user.first_name}}
+        {{user.last_name}}
+        {{user.email}}
+        {{user.date_joined}}
+    </div>
+    <!--my posts for Study-->
+    <div class="my_study">
+
+    </div>
+    <!--my posts for Clubs-->
+    <div class="my_clubs">
+        
+    </div>
+    <!--my posts for Notice-->
+    <div class="my_notice">
+        
+    </div>
+    <!--my posts for Social-->
+    <div class="my_social">
+
+    </div>
+</div>
+{% endblock %}

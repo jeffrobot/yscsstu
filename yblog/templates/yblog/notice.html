@@ -1,0 +1,73 @@
+{% extends 'yblog/base.html' %}
+{% load static %}
+{% block content %}
+<div style="background: rgba(0, 0, 0, 0.952);width:100%;height:300px;">
+    <div class="notice">
+    <div class="nname">
+        공고
+    </div>
+    </div>
+</div>          
+<div class="container">
+<div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">게시자</th>
+                    <th scope="col">카테고리</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">조회수</th>
+                    <th scope="col">댓글 수</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for notice in notices %}
+                    <tr>
+                        <td>{{notice.author}}</td>
+                        <td>{{notice.category}}</td>
+                        <td><a href="{% url 'post_detail' pk=notice.pk %}">{{notice.title}}</a></td>
+                        <td>{{notice.comments.count}}</td>
+                        <td>{{notice.comments.count}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+                <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if notices.has_previous %}
+                        <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; first</a>
+                        </li>
+                        <li class="page-item">
+                        <a class="page-link" href="?page={{ notices.previous_page_number }}">previous</a>
+                        </li>
+                    {% endif %}
+                        
+                    <!--<span class="current">
+                        Page {{ notices.number }} of {{ notices.paginator.num_pages }}.
+                    </span>-->
+                    {% for page in notices.paginator.page_range %}
+                        {% if notices.number == page %}
+                        <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}<span class="sr-only">(current)</span></a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if notices.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ notices.next_page_number }}">next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ notices.paginator.num_pages }}">last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                </nav>
+            </span>
+        </div>
+    </div>
+{% endblock %}

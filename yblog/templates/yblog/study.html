@@ -1,0 +1,74 @@
+{% extends 'yblog/base.html' %}
+{% load static %}
+{% block content %}
+        <div style="background: rgba(3, 3, 3, 0.952);width:100%;height:300px;">
+            <div class="study">
+            <div class="stname">
+                스터디
+            </div>
+            </div>
+        </div>
+        
+        <div class="container">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">게시자</th>
+                        <th scope="col">카테고리</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">추천 수</th>
+                        <th scope="col">댓글 수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for study in studies %}
+                    <tr>
+                        <td>{{study.author}}</td>
+                        <td>{{study.category}}</td>
+                        <td><a href="{% url 'post_detail' pk=study.pk %}">{{study.title}}</a></td>
+                        <td>{{study.comments.count}}</td>
+                        <td>{{study.comments.count}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination justify-content-center">
+            <span class="step-links">
+                <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if studies.has_previous %}
+                        <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; first</a>
+                        </li>
+                        <li class="page-item">
+                        <a class="page-link" href="?page={{ studies.previous_page_number }}">previous</a>
+                        </li>
+                    {% endif %}
+                        
+                    <!--<span class="current">
+                        Page {{ studies.number }} of {{ studies.paginator.num_pages }}.
+                    </span>-->
+                    {% for page in studies.paginator.page_range %}
+                        {% if studies.number == page %}
+                        <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}<span class="sr-only">(current)</span></a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if studies.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ studies.next_page_number }}">next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ studies.paginator.num_pages }}">last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                </nav>
+            </span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "yblog/base.html" %}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %} 
+    <div id="logincard" class="card border-secondary text-center">
+        <div class="card-header">
+          LOGIN
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{form|crispy}}
+                <br>
+                <button style="margin: auto; border:1px solid black; border-radius:30px;"class='btn' type='submit'>로그인</button>
+            </form>
+        </div>
+        <div class="card-footer">
+            계정이 없다면 <a href="/yblog/register">회원가입</a>하세요.
+        </div>
+
+    </div>
+{% endblock %}
