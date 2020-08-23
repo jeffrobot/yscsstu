@@ -39,4 +39,5 @@ RUN set -ex \
 
 COPY --from=builder /venv /venv
 COPY --from=builder /code /code
+EXPOSE 80
 CMD ["bash", "-c", "source /venv/bin/activate && supervisord -n"]
